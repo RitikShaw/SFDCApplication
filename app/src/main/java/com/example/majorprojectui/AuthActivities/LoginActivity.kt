@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log.e
 import com.example.majorprojectui.MainActivity
 import com.example.majorprojectui.databinding.ActivityLoginBinding
+import com.google.firebase.FirebaseApp
 import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
@@ -29,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getuserDetails(userDetails: String) {
+        FirebaseApp.initializeApp(this)
         var dataBase = FirebaseDatabase.getInstance()
         var datareference = dataBase.getReference("User")
         datareference.child(userDetails).get().addOnSuccessListener {
@@ -48,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }.addOnFailureListener {
             e("failed","failed")
+            e("failed",it.toString())
         }
     }
 }
