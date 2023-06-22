@@ -1,6 +1,8 @@
 package com.example.majorprojectui.AuthActivities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log.e
@@ -39,6 +41,12 @@ class LoginActivity : AppCompatActivity() {
                 var password = it.child("password").value.toString()
                 if (binding.loginetPassword.text.toString().equals(password)){
                     e("authenticate","${it.child("emailId").value.toString()} success")
+
+                    val userDetails = getSharedPreferences("userDetails",Context.MODE_PRIVATE)
+                    var editor = userDetails.edit()
+                    editor.putString("userName",it.child("name").value.toString())
+                    editor.putString("userMail",it.child("emailId").value.toString())
+                    editor.commit()
                     startActivity(Intent(this, MainActivity::class.java))
                 }
                 else{

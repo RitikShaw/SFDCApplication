@@ -67,7 +67,7 @@
                             android:layout_width="@dimen/_120sdp"
                             android:layout_height="@dimen/_120sdp"
                             android:layout_marginTop="@dimen/_25sdp"
-                            android:src="@drawable/scanner" />
+                            android:src="@drawable/sprout" />
 
                         <TextView
                             android:id="@+id/tvResult"
@@ -102,108 +102,116 @@
                 app:layout_constraintTop_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent=".5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center_horizontal"
             app:layout_constraintTop_toBottomOf="@id/cl_scanner"
-            android:layout_marginVertical="@dimen/_30sdp"
-            android:layout_marginHorizontal="@dimen/_30sdp"
-            android:padding="@dimen/_5sdp">
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_deseaseRemedy"
+            >
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_4sdp"
-                app:cardElevation="@dimen/_5sdp"
-                android:layout_margin="@dimen/_8sdp">
-
-                <LinearLayout
+                android:gravity="center_horizontal"
+                android:layout_marginVertical="@dimen/_30sdp"
+                android:layout_marginHorizontal="@dimen/_30sdp"
+                android:padding="@dimen/_5sdp">
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_deseaseRemedy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="@dimen/_30sdp"
-                    android:paddingVertical="@dimen/_5sdp">
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_5sdp"
+                    android:layout_margin="@dimen/_8sdp">
 
-                    <ImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:src="@drawable/scanner" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingHorizontal="@dimen/_8sdp"
-                        android:text="Disease &amp; remedi"
-                        android:textColor="@color/textcolor"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_contribute"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_4sdp"
-                app:cardElevation="@dimen/_7sdp"
-                android:layout_below="@id/card_deseaseRemedy"
-                android:layout_margin="@dimen/_8sdp">
-                <LinearLayout
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="@dimen/_30sdp"
+                        android:paddingVertical="@dimen/_5sdp">
+
+                        <ImageView
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:src="@drawable/herbs" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:text="Disease &amp; remedi"
+                            android:textColor="@color/textcolor"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_contribute"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="@dimen/_5sdp"
-                    android:paddingHorizontal="@dimen/_30sdp">
-                    <ImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:src="@drawable/scanner"/>
-                    <TextView
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_7sdp"
+                    android:layout_below="@id/card_deseaseRemedy"
+                    android:layout_margin="@dimen/_8sdp">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingHorizontal="@dimen/_8sdp"
-                        android:text="Contribute"
-                        android:textColor="@color/textcolor"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15ssp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_4sdp"
-                app:cardElevation="@dimen/_7sdp"
-                android:layout_below="@id/card_contribute"
-                android:layout_marginHorizontal="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_16sdp">
-                <LinearLayout
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/_5sdp"
+                        android:paddingHorizontal="@dimen/_30sdp">
+                        <ImageView
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:src="@drawable/photos"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:text="Contribute"
+                            android:textColor="@color/textcolor"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_15ssp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="@dimen/_5sdp"
-                    android:paddingHorizontal="@dimen/_30sdp">
-                    <ImageView
-                        android:layout_width="@dimen/_30sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:src="@drawable/scanner"/>
-                    <TextView
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_7sdp"
+                    android:layout_below="@id/card_contribute"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_16sdp">
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingHorizontal="@dimen/_8sdp"
-                        android:text="Past Searches"
-                        android:textColor="@color/textcolor"
-                        android:textStyle="bold"
-                        android:textSize="@dimen/_15ssp"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/_5sdp"
+                        android:paddingHorizontal="@dimen/_30sdp">
+                        <ImageView
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:src="@drawable/history"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingHorizontal="@dimen/_8sdp"
+                            android:text="Past Searches"
+                            android:textColor="@color/textcolor"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_15ssp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView

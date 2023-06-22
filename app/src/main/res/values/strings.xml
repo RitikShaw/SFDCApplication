@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MajorProjectUI</string>
+    <string name="app_name">SFDCSApp</string>
     <string name="Welcome_Statement">This App will allow you to administer care for our sick spinach plants whenever you need</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>

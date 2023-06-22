@@ -1,5 +1,6 @@
 package com.example.majorprojectui
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -9,12 +10,14 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log.e
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import com.example.majorprojectui.AuthActivities.LoginActivity
 import com.example.majorprojectui.databinding.ActivityMainBinding
 import com.example.majorprojectui.ml.LiteLeafmodelBest
 import com.example.majorprojectui.ml.LiteSfdnetModel
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private val imageSize  = 256
     private var disease = ""
     private var ishealthy = false
+    public lateinit var selectedImage: Bitmap
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -47,20 +51,40 @@ class MainActivity : AppCompatActivity() {
         binding.cardDeseaseRemedy.setOnClickListener {
             if (disease.isEmpty()){
                 Toast.makeText(this,"Please scan your plant for data",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+//                return@setOnClickListener
             }
             if (ishealthy){
                 Toast.makeText(this,"No disease found for your plant",Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+//                return@setOnClickListener
             }
             val intent = Intent(this@MainActivity,DiseaseActivity::class.java)
             intent.putExtra("disease",disease)
+            intent.putExtra("image",selectedImage)
             startActivity(intent)
         }
 
         drawerToggle = ActionBarDrawerToggle(this@MainActivity,binding.drawerLayout,toolbar,R.string.nav_open,R.string.nav_close)
         binding.drawerLayout.addDrawerListener(drawerToggle!!)
         drawerToggle.syncState()
+        val headerView = binding.navigationView.getHeaderView(0)
+        val userName = headerView.findViewById<TextView>(R.id.tv_userName)
+        val userMail = headerView.findViewById<TextView>(R.id.tv_userMail)
+
+        val userDetails = getSharedPreferences("userDetails", Context.MODE_PRIVATE)
+        userName.text=userDetails.getString("userName","defaultName")
+        userMail.text=userDetails.getString("userMail","defaultName")
+
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.logout-> {
+                    binding.drawerLayout.closeDrawers()
+                    startActivity(Intent(this,LoginActivity::class.java))
+                    finish()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun getPermission(event : Int) {
@@ -92,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                 var source =ImageDecoder.createSource(this.contentResolver, imagedata!!)
                 imageBitmap = ImageDecoder.decodeBitmap(source)
                 binding.imgCapturedPic.setImageBitmap(imageBitmap)
+                selectedImage = imageBitmap
 
                 imageBitmap =Bitmap.createScaledBitmap(imageBitmap,256,256,false)
                 classify(imageBitmap)
@@ -101,6 +126,7 @@ class MainActivity : AppCompatActivity() {
                 val dimensions = Math.min(imageBitmap.width,imageBitmap.height)
                 imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,dimensions,dimensions)
                 binding.imgCapturedPic.setImageBitmap(imageBitmap)
+                selectedImage = imageBitmap
 
                 imageBitmap = Bitmap.createScaledBitmap(imageBitmap,256,256,false)
                 classify(imageBitmap)
@@ -211,11 +237,15 @@ class MainActivity : AppCompatActivity() {
             }
             1-> {
                 binding.tvResult.text = "Downey Mildew"
+                disease = "Cercospora"
                 disease = "Downey Mildew"
             }
             2-> {
                 binding.tvResult.text = "Cercospora"
-                disease = "Cercospora"
+                disease = "Cladosporium"
+            }
+            3-> {
+                binding.tvResult.text = "Downy Mildew"
             }
             4-> {
                 binding.tvResult.text = "Healthy"

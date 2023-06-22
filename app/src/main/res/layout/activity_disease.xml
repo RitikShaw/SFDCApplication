@@ -12,22 +12,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/app_background">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            style="@style/ThemeOverlay.MaterialComponents.ActionBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="#17C6B4"
-                app:titleTextColor="@color/white" />
-        </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -35,12 +20,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appbar">
+            app:layout_constraintTop_toTopOf="parent">
             <LinearLayout
                 android:id="@+id/ll_disease_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_70sdp"
                 android:orientation="horizontal">
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
@@ -51,75 +36,115 @@
                     app:cardCornerRadius="@dimen/_12sdp"
                     app:cardElevation="@dimen/_8sdp">
                     <ImageView
+                        android:id="@+id/imv_desease"
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="@dimen/_100sdp"
-                        android:padding="@dimen/_5sdp"
-                        android:src="@drawable/scanner"/>
+                        android:padding="@dimen/_10sdp"
+                        android:src="@drawable/sprout"/>
                 </androidx.cardview.widget.CardView>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Disease name"
                     android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_20sdp"
+                    android:textSize="@dimen/_20ssp"
                     android:textColor="@color/textcolor"
                     android:textStyle="bold"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="0dp"
                 android:layout_below="@id/ll_disease_header"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginHorizontal="@dimen/_15sdp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_3sdp"
-                    android:text="Details"
-                    android:textSize="@dimen/_18sdp"
-                    android:textColor="@color/textcolor"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/tvDetails"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_3sdp"
-                    android:text="Plant transformation vectors are plasmids that have been specifically designed to facilitate the generation of transgenic plants. The most commonly
+                android:layout_alignParentBottom="true"
+                android:gravity="fill_vertical">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3sdp"
+                            android:text="Details"
+                            android:textColor="@color/textcolor"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvDetails"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            tools:text="Plant transformation vectors are plasmids that have been specifically designed to facilitate the generation of transgenic plants. The most commonly
+                                  used plant transformation vectors are termed binary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3sdp"
+                            android:text="Symptoms"
+                            android:textColor="@color/textcolor"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSymptoms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3sdp"
+                            tools:text="Plant transformation vectors are plasmids that have been specifically designed to facilitate the generation of transgenic plants. The most commonly
                                   used plant transformation vectors are termed binary"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_3sdp"
-                    android:text="Cure"
-                    android:textSize="@dimen/_18sdp"
-                    android:textColor="@color/textcolor"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_3sdp"
-                    android:text="Plant transformation vectors are plasmids that have been specifically designed to facilitate the generation of transgenic plants. The most commonly
-                                  used plant transformation vectors are termed binary"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="@color/black"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_3sdp"
-                    android:text="Medecins"
-                    android:textSize="@dimen/_18sdp"
-                    android:textColor="@color/textcolor"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_3sdp"
-                    android:text="Plant transformation \n vectors are plasmids \n that have been specifically \n designed to facilitate the"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="@color/black"/>
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3sdp"
+                            android:text="Cure"
+                            android:textColor="@color/textcolor"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvCure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3sdp"
+                            tools:text="Plant transformation \n vectors are plasmids \n that have been specifically \n designed to facilitate the"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3sdp"
+                            android:text="Medicines"
+                            android:textColor="@color/textcolor"
+                            android:textSize="@dimen/_18ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvMedicines"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/_3ssp"
+                            tools:text="Plant transformation \n vectors are plasmids \n that have been specifically \n designed to facilitate the"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+                </ScrollView>
             </LinearLayout>
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
