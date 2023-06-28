@@ -53,14 +53,16 @@
                     android:layout_marginHorizontal="@dimen/_40sdp"
                     android:layout_marginBottom="@dimen/_18sdp"
                     app:cardCornerRadius="@dimen/_8sdp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="#ffffff">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="#ffffff">
 
                         <ImageView
                             android:id="@+id/img_capturedPic"
@@ -74,13 +76,26 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_15sdp"
-                            android:layout_marginBottom="@dimen/_35sdp"
+                            android:layout_marginBottom="@dimen/_2sdp"
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/_60sdp"
                             android:text="Scan your plant leave to detect the desease."
-                            android:textColor="#737373"
                             android:textSize="@dimen/_11ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textColor="@color/textcolor1"/>
+                        <TextView
+                            android:id="@+id/tvConfidence"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_marginBottom="@dimen/_35sdp"
+                            android:gravity="center"
+                            android:paddingHorizontal="@dimen/_60sdp"
+                            tools:text="98%"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold"
+                            android:visibility="invisible"
+                            android:textColor="@color/textcolor"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </FrameLayout>
@@ -94,7 +109,7 @@
                 android:background="@drawable/btn_background"
                 android:paddingHorizontal="@dimen/_25sdp"
                 android:text="Take Picture"
-                android:textColor="#ffffff"
+                android:textColor="@drawable/btn_text_color"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintBottom_toBottomOf="@+id/framell"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -106,31 +121,33 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent=".5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_scanner"
-            >
+            app:layout_constraintTop_toBottomOf="@id/cl_scanner">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginVertical="@dimen/_30sdp"
                 android:layout_marginHorizontal="@dimen/_30sdp"
+                android:layout_marginVertical="@dimen/_30sdp"
+                android:gravity="center_horizontal"
                 android:padding="@dimen/_5sdp">
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_deseaseRemedy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    app:cardBackgroundColor="#ffffff"
                     app:cardCornerRadius="@dimen/_4sdp"
-                    app:cardElevation="@dimen/_5sdp"
-                    android:layout_margin="@dimen/_8sdp">
+                    app:cardElevation="@dimen/_5sdp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="@dimen/_30sdp"
+                        android:paddingHorizontal="@dimen/_20sdp"
                         android:paddingVertical="@dimen/_5sdp">
 
                         <ImageView
@@ -149,24 +166,30 @@
                             android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_contribute"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="@dimen/_4sdp"
-                    app:cardElevation="@dimen/_7sdp"
                     android:layout_below="@id/card_deseaseRemedy"
-                    android:layout_margin="@dimen/_8sdp">
+                    android:layout_margin="@dimen/_8sdp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_7sdp">
+
                     <LinearLayout
+                        android:id="@+id/ll_contribute"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingVertical="@dimen/_5sdp"
-                        android:paddingHorizontal="@dimen/_30sdp">
+                        android:paddingHorizontal="@dimen/_20sdp"
+                        android:paddingVertical="@dimen/_5sdp">
+
                         <ImageView
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:src="@drawable/photos"/>
+                            android:src="@drawable/photos" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -174,30 +197,35 @@
                             android:paddingHorizontal="@dimen/_8sdp"
                             android:text="Contribute"
                             android:textColor="@color/textcolor"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_15ssp"/>
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="@dimen/_4sdp"
-                    app:cardElevation="@dimen/_7sdp"
                     android:layout_below="@id/card_contribute"
                     android:layout_marginHorizontal="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:layout_marginBottom="@dimen/_16sdp">
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    app:cardBackgroundColor="#ffffff"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_7sdp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingVertical="@dimen/_5sdp"
-                        android:paddingHorizontal="@dimen/_30sdp">
+                        android:paddingHorizontal="@dimen/_20sdp"
+                        android:paddingVertical="@dimen/_5sdp">
+
                         <ImageView
                             android:layout_width="@dimen/_30sdp"
                             android:layout_height="@dimen/_30sdp"
-                            android:src="@drawable/history"/>
+                            android:src="@drawable/history" />
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -205,8 +233,8 @@
                             android:paddingHorizontal="@dimen/_8sdp"
                             android:text="Past Searches"
                             android:textColor="@color/textcolor"
-                            android:textStyle="bold"
-                            android:textSize="@dimen/_15ssp"/>
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

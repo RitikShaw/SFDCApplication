@@ -11,8 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/app_background">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            style="@style/ThemeOverlay.MaterialComponents.ActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#17C6B4"
+                app:title="Disease &amp; Remedy"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -25,7 +40,7 @@
                 android:id="@+id/ll_disease_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginTop="@dimen/_65sdp"
                 android:orientation="horizontal">
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
@@ -43,11 +58,12 @@
                         android:src="@drawable/sprout"/>
                 </androidx.cardview.widget.CardView>
                 <TextView
+                    android:id="@+id/tv_diseaseName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Disease name"
                     android:layout_gravity="center_vertical"
-                    android:textSize="@dimen/_20ssp"
+                    android:textSize="@dimen/_22ssp"
                     android:textColor="@color/textcolor"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -148,5 +164,11 @@
             </LinearLayout>
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/navigation_menu"/>
 </androidx.drawerlayout.widget.DrawerLayout>

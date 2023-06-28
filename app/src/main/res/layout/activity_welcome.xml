@@ -18,7 +18,8 @@
         android:layout_marginStart="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_30sdp"
         android:padding="@dimen/_5sdp"
-        app:cardElevation="20dp">
+        app:cardElevation="20dp"
+        app:cardBackgroundColor="@color/white">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,7 +38,7 @@
                 android:textStyle="bold"/>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_etl_userId"
+                android:id="@+id/register_etl_userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -52,14 +53,16 @@
                 app:boxStrokeWidthFocused="0dp"
                 android:hint=" ">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_et_userId"
+                    android:id="@+id/register_et_userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/user"
                     android:drawablePadding="@dimen/_5sdp"
                     android:background="@drawable/edit_text_curve_background"
                     android:padding="@dimen/_8sdp"
-                    android:hint="user id"/>
+                    android:hint="User Name"
+                    android:textColor="@color/textcolor1"
+                    android:textColorHint="@color/textcolor1"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/register_etl_password"
@@ -83,8 +86,10 @@
                     android:drawableStart="@drawable/password_icon"
                     android:drawablePadding="@dimen/_5sdp"
                     android:background="@drawable/edit_text_curve_background"
-                    android:hint="password"
-                    android:padding="@dimen/_8sdp"/>
+                    android:hint="Password"
+                    android:padding="@dimen/_8sdp"
+                    android:textColor="@color/textcolor1"
+                    android:textColorHint="@color/textcolor1"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/register_etl_emailId"
@@ -109,7 +114,9 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:background="@drawable/edit_text_curve_background"
                     android:padding="@dimen/_8sdp"
-                    android:hint="Email ID"/>
+                    android:hint="Email ID"
+                    android:textColor="@color/textcolor1"
+                    android:textColorHint="@color/textcolor1"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/register_etl_phone"
@@ -134,7 +141,9 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:background="@drawable/edit_text_curve_background"
                     android:padding="@dimen/_8sdp"
-                    android:hint="Phone Number"/>
+                    android:hint="Phone Number"
+                    android:textColor="@color/textcolor1"
+                    android:textColorHint="@color/textcolor1"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -148,7 +157,7 @@
                 android:text="Register"
                 android:textAllCaps="false"
                 android:textSize="@dimen/_20ssp"
-                android:textColor="#ffffff"/>
+                android:textColor="@drawable/btn_text_color"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,8 +169,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Old user?"
+                    android:textColor="@color/textcolor1"
                     android:textStyle="bold"/>
                 <TextView
+                    android:id="@+id/tv_login"
                     android:layout_margin="@dimen/_3sdp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

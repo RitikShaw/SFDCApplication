@@ -1,19 +1,29 @@
 package com.example.majorprojectui
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.media.ThumbnailUtils
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log.e
+import android.view.View
+import android.view.Window
+import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -21,19 +31,23 @@ import com.example.majorprojectui.AuthActivities.LoginActivity
 import com.example.majorprojectui.databinding.ActivityMainBinding
 import com.example.majorprojectui.ml.LiteLeafmodelBest
 import com.example.majorprojectui.ml.LiteSfdnetModel
+import com.example.majorprojectui.utills.LoginUtills
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.math.BigDecimal
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class MainActivity : AppCompatActivity() {
+    private var doubleBackToExitPressedOnce = false
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private var requestCode = 0
     private val imageSize  = 256
     private var disease = ""
     private var ishealthy = false
-    public lateinit var selectedImage: Bitmap
+    private var isleaf = false
+    var selectedImage: Bitmap? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,24 +56,27 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         binding.btnTakePic.setOnClickListener {
-            requestCode = 1
+            galleryCameraDialog()
 
-            getPermission(requestCode)
         }
 
 
         binding.cardDeseaseRemedy.setOnClickListener {
             if (disease.isEmpty()){
                 Toast.makeText(this,"Please scan your plant for data",Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
+                return@setOnClickListener
+            }
+            if (!isleaf){
+                Toast.makeText(this,"Image is not leaf",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             if (ishealthy){
                 Toast.makeText(this,"No disease found for your plant",Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
+                return@setOnClickListener
             }
             val intent = Intent(this@MainActivity,DiseaseActivity::class.java)
             intent.putExtra("disease",disease)
-            intent.putExtra("image",selectedImage)
+            LoginUtills.imageBitmap = selectedImage
             startActivity(intent)
         }
 
@@ -71,8 +88,17 @@ class MainActivity : AppCompatActivity() {
         val userMail = headerView.findViewById<TextView>(R.id.tv_userMail)
 
         val userDetails = getSharedPreferences("userDetails", Context.MODE_PRIVATE)
-        userName.text=userDetails.getString("userName","defaultName")
-        userMail.text=userDetails.getString("userMail","defaultName")
+
+        LoginUtills.userId = userDetails.getString("userId","defaultName").toString()
+        LoginUtills.username = userDetails.getString("userName","defaultName").toString()
+        LoginUtills.usermail = userDetails.getString("userMail","defaultName").toString()
+
+        userName.text=LoginUtills.username
+        userMail.text=LoginUtills.usermail
+
+        binding.llContribute.setOnClickListener {
+            startActivity(Intent(this,ContributionActivity::class.java))
+        }
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when(menuItem.itemId){
@@ -87,13 +113,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun galleryCameraDialog() {
+        val alertDialogBuilder = Dialog(this)
+        alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        alertDialogBuilder.setContentView(R.layout.camera_gallery_popup)
+
+        val gallery = alertDialogBuilder.findViewById<ImageView>(R.id.gallery)
+        val camera = alertDialogBuilder.findViewById<ImageView>(R.id.camera)
+
+        gallery.setOnClickListener {
+            requestCode = 0
+            getPermission(requestCode)
+            alertDialogBuilder.dismiss()
+        }
+
+        camera.setOnClickListener {
+            requestCode = 1
+            getPermission(requestCode)
+            alertDialogBuilder.dismiss()
+        }
+        alertDialogBuilder.show()
+        val lp = alertDialogBuilder.window?.attributes
+        if (lp != null) {
+            lp.dimAmount = 0.9f
+            lp.buttonBrightness = 1.0f
+            lp.screenBrightness = 1.0f
+        }
+
+        alertDialogBuilder.window?.attributes = lp
+        alertDialogBuilder.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+    }
+
     private fun getPermission(event : Int) {
         if( checkSelfPermission(android.Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED && checkSelfPermission(
                 android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
         {
             if (event == 0) {
                 val galleryService =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    Intent(Intent.ACTION_GET_CONTENT).also {
+                        it.type = "image/*"
+                        it.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,false)
+                    }
                 startActivityForResult(galleryService, event)
             }
             else{
@@ -113,10 +173,12 @@ class MainActivity : AppCompatActivity() {
             if (requestCode == 0){
                 val imagedata = data!!.data
                 var imageBitmap: Bitmap? = null
-                var source =ImageDecoder.createSource(this.contentResolver, imagedata!!)
-                imageBitmap = ImageDecoder.decodeBitmap(source)
+                imageBitmap =MediaStore.Images.Media.getBitmap(this.contentResolver, imagedata!!)
+                val dimensions = Math.min(imageBitmap.width,imageBitmap.height)
+                imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,dimensions,dimensions)
                 binding.imgCapturedPic.setImageBitmap(imageBitmap)
                 selectedImage = imageBitmap
+                e("selectedImage",selectedImage.toString())
 
                 imageBitmap =Bitmap.createScaledBitmap(imageBitmap,256,256,false)
                 classify(imageBitmap)
@@ -127,6 +189,7 @@ class MainActivity : AppCompatActivity() {
                 imageBitmap = ThumbnailUtils.extractThumbnail(imageBitmap,dimensions,dimensions)
                 binding.imgCapturedPic.setImageBitmap(imageBitmap)
                 selectedImage = imageBitmap
+                e("selectedImage",selectedImage.toString())
 
                 imageBitmap = Bitmap.createScaledBitmap(imageBitmap,256,256,false)
                 classify(imageBitmap)
@@ -173,12 +236,18 @@ class MainActivity : AppCompatActivity() {
 
 
         if (confidence[0] < 0.5){
+            isleaf = false
             binding.tvResult.text="Not Leaf"
+            disease = "Not Leaf"
+            binding.tvResult.setTextColor(Color.RED)
+            binding.tvConfidence.visibility = View.INVISIBLE
             Toast.makeText(this,"Not Leaf", Toast.LENGTH_SHORT).show()
         }
         else{
+            isleaf = true
+            binding.tvResult.setTextColor(resources.getColor(R.color.textcolor1))
+            binding.tvConfidence.visibility = View.VISIBLE
             classifyDisease(imageBitmap)
-            Toast.makeText(this,"Leaf", Toast.LENGTH_SHORT).show()
         }
 // Releases model resources if no longer used.
         model.close()
@@ -187,7 +256,7 @@ class MainActivity : AppCompatActivity() {
     private fun classifyDisease(imageBitmap: Bitmap?) {
         val model = LiteSfdnetModel.newInstance(this)
 
-// Creates inputs for reference.
+        // Creates inputs for reference.
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, imageSize, imageSize, 3), DataType.FLOAT32)
 
         var byteBuffer = ByteBuffer.allocateDirect(4*imageSize*imageSize*3)
@@ -213,7 +282,7 @@ class MainActivity : AppCompatActivity() {
 
         inputFeature0.loadBuffer(byteBuffer)
 
-// Runs model inference and gets result.
+        // Runs model inference and gets result.
         val outputs = model.process(inputFeature0)
         val outputFeature0 = outputs.outputFeature0AsTensorBuffer
 
@@ -224,40 +293,54 @@ class MainActivity : AppCompatActivity() {
         e("size",confidence.size.toString())
 
         for (i in confidence.indices){
-            e("confidence","${confidence[i]} $i")
+            e("confidence",BigDecimal(confidence[i].toString()).toString())
             if (confidence[max]<confidence[i]){
                 max = i
             }
         }
 
         when (max) {
+
             0-> {
-                binding.tvResult.text = "anthracnose"
+                binding.tvResult.text = "Anthracnose"
                 disease = "Anthracnose"
+                binding.tvConfidence.text =
+                    "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
             1-> {
-                binding.tvResult.text = "Downey Mildew"
+                binding.tvResult.text = "Cercospora"
                 disease = "Cercospora"
-                disease = "Downey Mildew"
+                binding.tvConfidence.text =
+                    "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
             2-> {
-                binding.tvResult.text = "Cercospora"
+                binding.tvResult.text = "Cladosporium"
                 disease = "Cladosporium"
+                binding.tvConfidence.text =
+                    "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
             3-> {
                 binding.tvResult.text = "Downy Mildew"
+                disease = "Downy Mildew"
+                binding.tvConfidence.text =
+                    "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
             4-> {
                 binding.tvResult.text = "Healthy"
+                binding.tvResult.setTextColor(Color.GREEN)
                 ishealthy = true
                 disease = "Healthy"
+                binding.tvConfidence.text =
+                    "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
-
+            5-> {
+                binding.tvResult.text = "Stemphylium leaf spot"
+                disease = "Stemphylium leaf spot"
+                binding.tvConfidence.text =
+                    "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
+            }
             else -> binding.tvResult.text = "Healthy"
         }
-        e("maxconfidence",max.toString())
-
-
     }
 
     override fun onRequestPermissionsResult(
@@ -284,5 +367,19 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, "Camera Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 1000)
     }
 }
