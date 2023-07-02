@@ -146,9 +146,9 @@ class MainActivity : AppCompatActivity() {
         if (lp != null) {
             lp.dimAmount = 0.9f
             lp.buttonBrightness = 1.0f
-            lp.screenBrightness = 1.0f
+            lp.screenBrightness = android.provider.Settings.System.getInt(
+                contentResolver, android.provider.Settings.System.SCREEN_BRIGHTNESS).toFloat()
         }
-
         alertDialogBuilder.window?.attributes = lp
         alertDialogBuilder.window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
     }
@@ -302,7 +302,7 @@ class MainActivity : AppCompatActivity() {
         e("size",confidence.size.toString())
 
         for (i in confidence.indices){
-            e("confidence",BigDecimal(confidence[i].toString()).toString())
+            e("confidence",BigDecimal((confidence[i]).toString()).toString())
             if (confidence[max]<confidence[i]){
                 max = i
             }
