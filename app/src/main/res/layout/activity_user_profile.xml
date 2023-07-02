@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="#17C6B4"
-                app:title="Contribution"
+                app:title="My Profile"
                 app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
 

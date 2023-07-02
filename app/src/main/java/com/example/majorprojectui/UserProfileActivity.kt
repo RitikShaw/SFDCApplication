@@ -44,7 +44,7 @@ class UserProfileActivity : AppCompatActivity() {
             this.setContentView(view)
             val title = view.findViewById<TextView>(R.id.tv_text)
             title.text = "Please wait ..."
-            setMessage("Authenticating...")
+            setMessage("Loading...")
         }
 
         setUserData()
