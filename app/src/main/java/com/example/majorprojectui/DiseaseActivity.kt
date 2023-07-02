@@ -8,8 +8,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.majorprojectui.AuthActivities.LoginActivity
 import com.example.majorprojectui.Models.DiseaseData
+import com.example.majorprojectui.Models.MedicinesData
+import com.example.majorprojectui.adapter.DiseaseMedsAdapter
 import com.example.majorprojectui.databinding.ActivityDiseaseBinding
 import com.example.majorprojectui.utills.LoginUtills
 import com.google.firebase.auth.ktx.auth
@@ -95,11 +98,17 @@ class DiseaseActivity : AppCompatActivity() {
                         tvCure.text = diseaseData.cure
                         val medicineList = diseaseData.medicine!!.split(",")
                         val medlinkList = diseaseData.medlinks!!.split(",")
-                        val medicineArrayList = ArrayList<String>()
-                        medicineList.forEach {
-                            medicineArrayList.add(it)
+                        val medicineDataList = ArrayList<MedicinesData>()
+                        for (i in medicineList.indices){
+                            medicineDataList.add(MedicinesData(medicineList[i],medlinkList[i]))
                         }
-                        tvMedicines.text = diseaseData.medicine.replace(",","\n")
+                        if (medicineDataList.isNotEmpty()){
+                            val myAdapter = DiseaseMedsAdapter(medicineDataList)
+                            binding.rvDisease.apply {
+                                layoutManager = LinearLayoutManager(this@DiseaseActivity)
+                                adapter = myAdapter
+                            }
+                        }
                     }
                 }
                 else{
@@ -111,6 +120,7 @@ class DiseaseActivity : AppCompatActivity() {
                 Toast.makeText(this@DiseaseActivity,"Cannot get find data for $disease", Toast.LENGTH_SHORT).show()
             }
         })
+
     }
 
 

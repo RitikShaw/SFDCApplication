@@ -68,17 +68,17 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
-
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:layout_below="@id/ll_disease_header">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
                         android:orientation="vertical">
 
                         <TextView
@@ -146,16 +146,14 @@
                             android:textSize="@dimen/_18ssp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tvMedicines"
-                            android:layout_width="wrap_content"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvDisease"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginVertical="@dimen/_3ssp"
-                            tools:text="Plant transformation \n vectors are plasmids \n that have been specifically \n designed to facilitate the"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp" />
+                            android:layout_marginHorizontal="@dimen/_5sdp"
+                            tools:listitem="@layout/layout_rvitem_medicines"/>
                     </LinearLayout>
-                </ScrollView>
+                </androidx.core.widget.NestedScrollView>
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView

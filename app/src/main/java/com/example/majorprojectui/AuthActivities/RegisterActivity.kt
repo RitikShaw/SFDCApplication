@@ -95,7 +95,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
                 else if (!isValidPassword(registerEtPassword.text.toString().trim())){
                     registerEtlPassword.isErrorEnabled = true
-                    registerEtlPassword.error = "Please set a valid password"
+                    registerEtlPassword.error = "Password should be minimum of 8 characters and must contain at least one Upper case and special characters"
                     return@setOnClickListener
                 }
 

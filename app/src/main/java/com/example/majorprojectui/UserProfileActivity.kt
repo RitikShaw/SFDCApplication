@@ -123,9 +123,9 @@ class UserProfileActivity : AppCompatActivity() {
                     tiluserProfilePassword.error = "Please provide a password"
                     return@setOnClickListener
                 }
-                else if (isValidPassword(etuserProfilePassword.text.toString().trim())){
+                else if (!isValidPassword(etuserProfilePassword.text.toString().trim()) || etuserProfilePassword.text.toString().trim().length<8){
                     tiluserProfilePassword.isErrorEnabled = true
-                    tiluserProfilePassword.error = "Please provide a valid password"
+                    tiluserProfilePassword.error = "Password should be minimum of 8 characters and must contain at least one Upper case and special characters"
                     return@setOnClickListener
                 }
             }
@@ -133,10 +133,10 @@ class UserProfileActivity : AppCompatActivity() {
             val name = binding.etuserProfileUsername.text.toString()
             val phone = binding.etuserProfilePhone.text.toString()
             val email = binding.etuserProfileEmail.text.toString()
-            val password = binding.etuserProfilePassword.text.toString()
-            val userData = AppUser(userId,name,phone,email,password)
+            val newpassword = binding.etuserProfilePassword.text.toString()
+            val userData = AppUser(userId,name,phone,email,newpassword)
 
-            if (password != binding.etuserProfilePassword.text.toString()){
+            if (password != newpassword){
                 updatePassword(userData)
             }
             else{

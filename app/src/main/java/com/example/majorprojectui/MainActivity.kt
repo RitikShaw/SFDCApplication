@@ -29,7 +29,9 @@ import com.example.majorprojectui.databinding.ActivityMainBinding
 import com.example.majorprojectui.ml.LiteLeafmodelBest
 import com.example.majorprojectui.ml.LiteSfdnetModel
 import com.example.majorprojectui.utills.LoginUtills
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -41,19 +43,20 @@ class MainActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    private val auth = Firebase.auth
     private var requestCode = 0
     private val imageSize  = 256
     private var disease = ""
     private var ishealthy = false
     private var isleaf = false
     var selectedImage: Bitmap? = null
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        auth = Firebase.auth
 
         binding.btnTakePic.setOnClickListener {
             galleryCameraDialog()
