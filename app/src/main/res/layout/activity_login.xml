@@ -59,6 +59,8 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:background="@drawable/edit_text_curve_background"
                     android:padding="@dimen/_8sdp"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
                     android:hint="Provide Email"
                     android:textColor="@color/textcolor1"
                     android:textColorHint="@color/textcolor1"/>
@@ -85,6 +87,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_curve_background"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionDone"
                     android:hint="Provide Password"
                     android:padding="@dimen/_8sdp"
                     android:textColor="@color/textcolor1"

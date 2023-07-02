@@ -11,13 +11,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.example.majorprojectui.MainActivity
+import com.example.majorprojectui.Models.AppUser
 import com.example.majorprojectui.R
 import com.example.majorprojectui.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class LoginActivity : AppCompatActivity() {
+    private var auth = Firebase.auth
     var doubleBackToExitPressedOnce = false
     private lateinit var binding : ActivityLoginBinding
     lateinit var progressBar : ProgressDialog
@@ -54,14 +63,30 @@ class LoginActivity : AppCompatActivity() {
                     logintilUserid.error = "Please give your email Id"
                     return@setOnClickListener
                 }
-                if (loginetPassword.text.toString().trim().isEmpty()){
+                else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(loginetUserid.text.toString().trim()).matches()){
+                    logintilUserid.isErrorEnabled = true
+                    logintilUserid.error = "Please provide valid email Id"
+                    return@setOnClickListener
+                }
+                else if (loginetPassword.text.toString().trim().isEmpty()){
                     logintilPassword.isErrorEnabled = true
                     logintilPassword.error = "Please give your password"
                     return@setOnClickListener
                 }
+                else if (!isValidPassword(loginetPassword.text.toString().trim()) || loginetPassword.text.toString().trim().length<8){
+//                    logintilPassword.isErrorEnabled = true
+                    logintilPassword.error = "Please give valid password"
+                    return@setOnClickListener
+                }
             }
-            var userDetails = binding.loginetUserid.text.toString()
-            getuserDetails(userDetails)
+            progressBar.show()
+            auth.signInWithEmailAndPassword(binding.loginetUserid.text.toString(),binding.loginetPassword.text.toString()).addOnSuccessListener {
+                getuserDetails(auth.currentUser!!.uid)
+            }.addOnFailureListener {
+                progressBar.dismiss()
+                Toast.makeText(this@LoginActivity,"Incorrect email or password",Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         binding.tvRegister.setOnClickListener {
@@ -86,41 +111,41 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun getuserDetails(userDetails: String) {
-        progressBar.show()
-        
+    private fun getuserDetails(userid: String) {
         var dataBase = FirebaseDatabase.getInstance()
         var datareference = dataBase.getReference("User")
-        datareference.child(userDetails).get().addOnSuccessListener {
-
-            if (it.exists()){
-                var password = it.child("password").value.toString()
-
-                if (binding.loginetPassword.text.toString().equals(password)){
-                    progressBar.dismiss()
-
+        datareference.child(userid).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                progressBar.dismiss()
+                val userData = snapshot.getValue(AppUser::class.java)
+                if (userData!=null){
                     val userDetails = getSharedPreferences("userDetails",Context.MODE_PRIVATE)
                     var editor = userDetails.edit()
-                    editor.putString("userId",it.child("userId").value.toString())
-                    editor.putString("userName",it.child("name").value.toString())
-                    editor.putString("userMail",it.child("emailId").value.toString())
-                    editor.commit()
-                    refresh()
-                    startActivity(Intent(this, MainActivity::class.java))
+                    editor.putString("userId",userData.userId)
+                    editor.putString("userName",userData.name)
+                    editor.putString("userMail",userData.emailId)
+                    editor.putString("userPhone",userData.phone)
+                    editor.apply()
+
+                    startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                 }
                 else{
-                    progressBar.dismiss()
-                    Toast.makeText(this,"invalid password",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity,"Empty data for $userid",Toast.LENGTH_SHORT).show()
                 }
             }
-            else{
+            override fun onCancelled(error: DatabaseError) {
                 progressBar.dismiss()
-                Toast.makeText(this,"No user found",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@LoginActivity,"Cannot get user data for $userid",Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener {
-            progressBar.dismiss()
-            Toast.makeText(this,it.toString(),Toast.LENGTH_SHORT).show()
-        }
+        })
+    }
+
+    fun isValidPassword(password: String?): Boolean {
+        val pattern: Pattern
+        val PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$"
+        pattern = Pattern.compile(PASSWORD_PATTERN)
+        val matcher: Matcher? = password?.let { pattern.matcher(it) }
+        return matcher!!.matches()
     }
 
     override fun onBackPressed() {

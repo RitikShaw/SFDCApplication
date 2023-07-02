@@ -11,34 +11,32 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.util.Log.e
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.majorprojectui.AuthActivities.LoginActivity
 import com.example.majorprojectui.adapter.ContributionAdapter
 import com.example.majorprojectui.databinding.ActivityContributionBinding
 import com.example.majorprojectui.utills.LoginUtills
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.function.Predicate
 
 class ContributionActivity : AppCompatActivity() {
     lateinit var binding: ActivityContributionBinding
     private lateinit var progressBar : ProgressDialog
     private lateinit var imageAdapter : ContributionAdapter
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    private val auth = Firebase.auth
 
     private var imageuriList = mutableListOf<Uri?>()
     private var filenameList = mutableListOf<String?>()
@@ -60,6 +58,23 @@ class ContributionActivity : AppCompatActivity() {
         val userMail = headerView.findViewById<TextView>(R.id.tv_userMail)
         userName.text=LoginUtills.username
         userMail.text=LoginUtills.usermail
+
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.Profile ->{
+                    binding.drawerLayout.closeDrawers()
+                    startActivity(Intent(this,UserProfileActivity::class.java))
+                    true
+                }
+                R.id.logout-> {
+                    binding.drawerLayout.closeDrawers()
+                    auth.signOut()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
 
         progressBar = ProgressDialog(this)
 
@@ -115,6 +130,8 @@ class ContributionActivity : AppCompatActivity() {
                         uploadImageToCloud(filenameList[position])
                     }
                     if (count==imageuriList.size){
+                        imageuriList.clear()
+                        filenameList.clear()
                         progressBar.dismiss()
                         setUpRecyclerView()
                     }
@@ -240,8 +257,6 @@ class ContributionActivity : AppCompatActivity() {
         currentFile?.let {
             storageRef.child("images/${LoginUtills.userId}/${binding.spDisease.selectedItem}/$filename").putFile(it).addOnSuccessListener{
                 Toast.makeText(this@ContributionActivity,"Image Uploaded",Toast.LENGTH_SHORT).show()
-                imageuriList.removeIf(Predicate.isEqual(currentFile))
-                filenameList.removeIf(Predicate.isEqual(filename))
             }.addOnFailureListener{
                 Toast.makeText(this@ContributionActivity,"Upload Failed",Toast.LENGTH_SHORT).show()
             }

@@ -6,5 +6,6 @@ object LoginUtills {
     public var userId = ""
     public var username = ""
     public var usermail = ""
+    public var userphone = ""
     public var imageBitmap : Bitmap? = null
 }

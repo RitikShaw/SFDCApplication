@@ -60,61 +60,9 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:background="@drawable/edit_text_curve_background"
                     android:padding="@dimen/_8sdp"
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
                     android:hint="User Name"
-                    android:textColor="@color/textcolor1"
-                    android:textColorHint="@color/textcolor1"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_etl_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:boxCornerRadiusTopStart="@dimen/_20sdp"
-                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
-                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
-                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                android:hint=" ">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_et_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/password_icon"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:background="@drawable/edit_text_curve_background"
-                    android:hint="Password"
-                    android:padding="@dimen/_8sdp"
-                    android:textColor="@color/textcolor1"
-                    android:textColorHint="@color/textcolor1"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_etl_emailId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:boxCornerRadiusTopStart="@dimen/_20sdp"
-                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
-                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
-                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                android:hint=" ">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_et_emailId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/mail_icon"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:background="@drawable/edit_text_curve_background"
-                    android:padding="@dimen/_8sdp"
-                    android:hint="Email ID"
                     android:textColor="@color/textcolor1"
                     android:textColorHint="@color/textcolor1"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -141,7 +89,67 @@
                     android:drawablePadding="@dimen/_5sdp"
                     android:background="@drawable/edit_text_curve_background"
                     android:padding="@dimen/_8sdp"
+                    android:inputType="phone"
+                    android:imeOptions="actionDone"
                     android:hint="Phone Number"
+                    android:textColor="@color/textcolor1"
+                    android:textColorHint="@color/textcolor1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_etl_emailId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:hint=" ">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_et_emailId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/mail_icon"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:background="@drawable/edit_text_curve_background"
+                    android:padding="@dimen/_8sdp"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:hint="Email ID"
+                    android:textColor="@color/textcolor1"
+                    android:textColorHint="@color/textcolor1"/>
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/register_etl_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                app:boxCornerRadiusTopStart="@dimen/_20sdp"
+                app:boxCornerRadiusTopEnd="@dimen/_20sdp"
+                app:boxCornerRadiusBottomStart="@dimen/_20sdp"
+                app:boxCornerRadiusBottomEnd="@dimen/_20sdp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:hint=" ">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/password_icon"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:background="@drawable/edit_text_curve_background"
+                    android:inputType="textPassword"
+                    android:imeOptions="actionNext"
+                    android:hint="Password"
+                    android:padding="@dimen/_8sdp"
                     android:textColor="@color/textcolor1"
                     android:textColorHint="@color/textcolor1"/>
             </com.google.android.material.textfield.TextInputLayout>

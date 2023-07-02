@@ -1,13 +1,11 @@
 package com.example.majorprojectui
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.ImageDecoder
 import android.media.ThumbnailUtils
 import android.os.Build
 import android.os.Bundle
@@ -23,7 +21,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
@@ -32,6 +29,8 @@ import com.example.majorprojectui.databinding.ActivityMainBinding
 import com.example.majorprojectui.ml.LiteLeafmodelBest
 import com.example.majorprojectui.ml.LiteSfdnetModel
 import com.example.majorprojectui.utills.LoginUtills
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.math.BigDecimal
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    private val auth = Firebase.auth
     private var requestCode = 0
     private val imageSize  = 256
     private var disease = ""
@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity() {
         LoginUtills.userId = userDetails.getString("userId","defaultName").toString()
         LoginUtills.username = userDetails.getString("userName","defaultName").toString()
         LoginUtills.usermail = userDetails.getString("userMail","defaultName").toString()
+        LoginUtills.userphone = userDetails.getString("userPhone","defaultName").toString()
 
         userName.text=LoginUtills.username
         userMail.text=LoginUtills.usermail
@@ -102,10 +103,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             when(menuItem.itemId){
+                R.id.Profile ->{
+                    binding.drawerLayout.closeDrawers()
+                    startActivity(Intent(this,UserProfileActivity::class.java))
+                    true
+                }
                 R.id.logout-> {
                     binding.drawerLayout.closeDrawers()
+                    auth.signOut()
                     startActivity(Intent(this,LoginActivity::class.java))
-                    finish()
                     true
                 }
                 else -> false
