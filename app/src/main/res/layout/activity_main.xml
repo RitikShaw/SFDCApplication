@@ -160,7 +160,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:paddingHorizontal="@dimen/_8sdp"
-                            android:text="Disease &amp; remedi"
+                            android:text="Disease &amp; remedy"
                             android:textColor="@color/textcolor"
                             android:textSize="@dimen/_15ssp"
                             android:textStyle="bold" />

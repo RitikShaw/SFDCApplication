@@ -313,24 +313,28 @@ class MainActivity : AppCompatActivity() {
             0-> {
                 binding.tvResult.text = "Anthracnose"
                 disease = "Anthracnose"
+                ishealthy = false
                 binding.tvConfidence.text =
                     "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
             1-> {
                 binding.tvResult.text = "Cercospora"
                 disease = "Cercospora"
+                ishealthy = false
                 binding.tvConfidence.text =
                     "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
             2-> {
                 binding.tvResult.text = "Cladosporium"
                 disease = "Cladosporium"
+                ishealthy = false
                 binding.tvConfidence.text =
                     "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
             3-> {
                 binding.tvResult.text = "Downy Mildew"
                 disease = "Downy Mildew"
+                ishealthy = false
                 binding.tvConfidence.text =
                     "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
@@ -345,6 +349,7 @@ class MainActivity : AppCompatActivity() {
             5-> {
                 binding.tvResult.text = "Stemphylium leaf spot"
                 disease = "Stemphylium leaf spot"
+                ishealthy = false
                 binding.tvConfidence.text =
                     "${String.format("%.2f", BigDecimal((confidence[max] * 100).toString()))}%"
             }
